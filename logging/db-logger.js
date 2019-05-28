@@ -60,7 +60,7 @@ DBLogger.prototype.sendToServer = function(data, attempts) {
             }, 1000);
         }
     };
-    xhr.open('POST', 'logging/mysql.php', true);
+    xhr.open('POST', 'http://localhost/isnap/logging/mysql.php', true);
     xhr.send(data);
 };
 

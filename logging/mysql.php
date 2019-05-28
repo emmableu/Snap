@@ -35,6 +35,7 @@ try {
                 $log[$key] = '';
             }
         }
+        $log['assignmentID'] = 'none'
 
         $message = $mysqli->escape_string($log['message']);
         $timestamp = date("Y-m-d H:i:s", $log['time'] / 1000);

@@ -114,6 +114,7 @@ function extend(clazz, functionName, newFunction) {
 
 // Called when the Snap world is loaded. No-op allows for extension
 function onWorldLoaded() {
+    // console.log("onWorldLoadedin util");
 
 }
 
