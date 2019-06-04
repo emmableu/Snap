@@ -1562,7 +1562,7 @@ SnapSerializer.prototype.openProject = function (project, ide) {
 };
 
 function onWorldLoaded() {
-    console.log("onWorldLoadedin util");
+    console.log("onWorldLoadedin parsons problem");
     console.log('onworldloaded');
     var ide = world.children[0];
     console.log("ide: ", ide);
