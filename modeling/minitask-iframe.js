@@ -16,11 +16,11 @@ extend(IDE_Morph, 'createControlBar', function(base) {
 //     this.categories.hide();
 // });
 //
-//
-// extend(IDE_Morph, 'createPalette', function(base, forSearching) {
-//     base.call(this);
-//     this.palette.hide();
-// });
+
+extend(IDE_Morph, 'createPalette', function(base, forSearching) {
+    base.call(this);
+    this.palette.acceptsDrops = false;
+});
 
 
 extend(IDE_Morph, 'createCorral', function(base) {
