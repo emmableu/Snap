@@ -9,12 +9,13 @@ function onWorldLoaded() {
         console.log('starter_path : ', starter_path );
         $.get(
             starter_path ,
-            // gon.ppxml_file
+            // gon.Fppxml_file
             function (data) {
                 ide.droppedText(data);
                 // ide.palette.hide();
             }
         );
+
 
 
 

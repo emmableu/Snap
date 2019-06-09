@@ -1567,7 +1567,7 @@ function onWorldLoaded() {
     var ide = world.children[0];
     console.log("ide: ", ide);
     ppxml_path = gon.ppxmlfile_path;
-
+    console.log("ppxml_path: ", ppxml_path);
     function addText(text, fontSize, bold, environment) {
         var width = ide.width();
 
@@ -2405,7 +2405,8 @@ addCodeToPalette = function(sprite) {
     var unit = SyntaxElementMorph.prototype.fontSize;
     var paletteYPosition = sprite.parsonsProblemPalette.top() + unit;
     sprite.exampleCode.forEach(function(block, index) {
-        if (window.assignmentID == 'polygonMakerLab' && index < 6) {
+
+        if (index < 1) {
             if (block instanceof CommentMorph) return;
             //block instanceof CustomCommandBlockMorph
             block.nextBlock().userMenu = showEditMenu;
@@ -2419,6 +2420,22 @@ addCodeToPalette = function(sprite) {
             // block.nextBlock().isStop = function() {
             //     return true;
             // };
+            var allow_repeat = 1;
+            block.blockSequence().forEach(function (subMorph) {
+                console.log("subMorph: ", subMorph);
+                console.log("subMorph.text: ", subMorph.selector);
+                if (allow_repeat==1){
+                    if (subMorph.selector == "doRepeat") {
+                        console.log("block subMorph: ", subMorph);
+                        console.log("block subMorph.selector: ", subMorph.selector);
+                        disableBlockEdit(subMorph);
+                    }
+                }
+                else{
+                    disableBlockEdit(subMorph);
+                }
+
+            });
             if (block instanceof HatBlockMorph) {
                 block.userMenu = showBlockUserMenu;
             }
