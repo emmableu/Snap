@@ -2320,17 +2320,17 @@ disableBlockEdit = function(block) {
 };
 
 informHelpFeature = function() {
-    if (runCodeTimes >= RUN_TIMES_TO_ENABLE_HELP && !hasShowCheckMyWork) {
-        ide.controlBar.PPHelpButton.show();
-        helpDialog = new DialogBoxMorph();
-        helpDialog.inform('Help Available',
-            'You can click \'Check My Work\' if you need help',
-            ide.world());
-        helpDialog.setPosition(
-            ide.controlBar.PPHelpButton.position().
-            add(new Point(0, ide.controlBar.height() + 6)));
-        hasShowCheckMyWork = true;
-    }
+    // if (runCodeTimes >= RUN_TIMES_TO_ENABLE_HELP && !hasShowCheckMyWork) {
+    //     // ide.controlBar.PPHelpButton.show();
+    //     helpDialog = new DialogBoxMorph();
+    //     helpDialog.inform('Help Available',
+    //         'You can click \'Check My Work\' if you need help',
+    //         ide.world());
+    //     helpDialog.setPosition(
+    //         ide.controlBar.PPHelpButton.position().
+    //         add(new Point(0, ide.controlBar.height() + 6)));
+    //     hasShowCheckMyWork = true;
+    // }
 };
 
 getTopBlock = function(scripts) {
@@ -2405,8 +2405,8 @@ addCodeToPalette = function(sprite) {
     var unit = SyntaxElementMorph.prototype.fontSize;
     var paletteYPosition = sprite.parsonsProblemPalette.top() + unit;
     sprite.exampleCode.forEach(function(block, index) {
-
-        if (index < 1) {
+    palette_start_index = parseInt(document.getElementById("minitask_palette_start_index").innerHTML)
+        if (index < palette_start_index) {
             if (block instanceof CommentMorph) return;
             //block instanceof CustomCommandBlockMorph
             block.nextBlock().userMenu = showEditMenu;
@@ -2420,15 +2420,23 @@ addCodeToPalette = function(sprite) {
             // block.nextBlock().isStop = function() {
             //     return true;
             // };
-            var allow_repeat = 1;
-            block.blockSequence().forEach(function (subMorph) {
-                console.log("subMorph: ", subMorph);
-                console.log("subMorph.text: ", subMorph.selector);
-                if (allow_repeat==1){
-                    if (subMorph.selector == "doRepeat") {
-                        console.log("block subMorph: ", subMorph);
-                        console.log("block subMorph.selector: ", subMorph.selector);
-                        disableBlockEdit(subMorph);
+            var allow_repeat = parseInt(document.getElementById("minitask_allow_repeat").innerHTML);
+            block.blockSequence().forEach(function (insideblock) {
+                console.log("insideblock: ", insideblock);
+                console.log("insideblock.text: ", insideblock.selector);
+                if (allow_repeat===1){
+                    if (insideblock.selector !== "doRepeat") {
+                        insideblock.children.forEach(function (subMorph){
+                            console.log("subMorph.text: ", subMorph.selector);
+                            disableBlockEdit(subMorph);
+                        });
+
+                    }
+                    else if (insideblock.children[2]){
+                        insideblock.children[2].allChildren().forEach(function (subMorph){
+                            console.log("subMorph.text: ", subMorph.selector);
+                            disableBlockEdit(subMorph);
+                        });
                     }
                 }
                 else{
