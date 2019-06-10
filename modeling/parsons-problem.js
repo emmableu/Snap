@@ -2440,9 +2440,11 @@ addCodeToPalette = function(sprite) {
                     }
                 }
                 else{
-                    disableBlockEdit(subMorph);
+                    insideblock.children.allChildren().forEach(function (subMorph){
+                        console.log("subMorph.text: ", subMorph.selector);
+                        disableBlockEdit(subMorph);
+                    });
                 }
-
             });
             if (block instanceof HatBlockMorph) {
                 block.userMenu = showBlockUserMenu;
