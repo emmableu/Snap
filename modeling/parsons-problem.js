@@ -2421,31 +2421,33 @@ addCodeToPalette = function(sprite) {
             //     return true;
             // };
             var allow_repeat = parseInt(document.getElementById("minitask_allow_repeat").innerHTML);
-            block.blockSequence().forEach(function (insideblock) {
-                console.log("insideblock: ", insideblock);
-                console.log("insideblock.text: ", insideblock.selector);
-                if (allow_repeat===1){
-                    if (insideblock.selector !== "doRepeat") {
-                        insideblock.children.forEach(function (subMorph){
-                            console.log("subMorph.text: ", subMorph.selector);
-                            disableBlockEdit(subMorph);
-                        });
+            if (allow_repeat===1){
+                block.blockSequence().forEach(function (insideblock) {
+                    console.log("insideblock: ", insideblock);
+                    console.log("insideblock.text: ", insideblock.selector);
 
-                    }
-                    else if (insideblock.children[2]){
-                        insideblock.children[2].allChildren().forEach(function (subMorph){
-                            console.log("subMorph.text: ", subMorph.selector);
-                            disableBlockEdit(subMorph);
-                        });
-                    }
-                }
-                else{
-                    insideblock.children.allChildren().forEach(function (subMorph){
-                        console.log("subMorph.text: ", subMorph.selector);
-                        disableBlockEdit(subMorph);
+                        if (insideblock.selector !== "doRepeat") {
+                            insideblock.children.forEach(function (subMorph){
+                                console.log("subMorph.text: ", subMorph.selector);
+                                disableBlockEdit(subMorph);
+                            });
+
+                        }
+                        else if (insideblock.children[2]){
+                            insideblock.children[2].allChildren().forEach(function (subMorph){
+                                console.log("subMorph.text: ", subMorph.selector);
+                                disableBlockEdit(subMorph);
+                            });
+                        }
                     });
-                }
-            });
+            }
+            else{
+                block.allChildren().forEach(function (subMorph){
+                    console.log("subMorph.text: ", subMorph.selector);
+                    disableBlockEdit(subMorph);
+                });
+            }
+
             if (block instanceof HatBlockMorph) {
                 block.userMenu = showBlockUserMenu;
             }
