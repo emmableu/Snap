@@ -1629,13 +1629,17 @@ function onWorldLoaded() {
                     nop();
                 }, // yield (bug in Chrome)
                 function () {
-                    myself.rawOpenProjectString(str);
-                    spriteToLeft(myself);
+                    if (str.indexOf('Untitled') === -1) {
+                        myself.rawOpenProjectString(str);
+                        spriteToLeft(myself);
+                        console.log(str);
+                    }
+
                     // myself.toggleFastTracking(); // open turbo mode
                 },
                 function () {
                     Trace.log('PP.Start', null, true, true);
-                    msg.destroy();
+                    // msg.destroy();
                 }
             ]);
         };
@@ -1778,7 +1782,7 @@ function onWorldLoaded() {
                     }
                 });
                 if (canReset) {
-                    ide.openProjectString(str);
+                    // ide.openProjectString(str);
                 } else {
                     ide.inform(
                         'Feature Disabled',
@@ -1861,10 +1865,12 @@ function onWorldLoaded() {
                 menu.popup(world, pos);
             };
 
-            // ide.droppedText = function (aString, name) {
-            //     Trace.log('PP.droppedText');
-            //     this.inform('Feature Disabled', 'This feature is disabled in lab assignments.');
-            // };
+            ide.droppedText = function (aString, name) {
+                console.log("droppedText: ", aString);
+                console.log("name: ", name);
+                Trace.log('PP.droppedText');
+                this.inform('Feature Disabled', 'This feature is disabled in lab assignments.');
+            };
 
             // remove highlight for blocks which already has value
             extend(ScriptsMorph, 'showReporterDropFeedbackFromTarget', function (base, block, target) {
@@ -1925,24 +1931,29 @@ function onWorldLoaded() {
                 extendObject(ide, 'selectSprite', function (base, sprite) {
                     base.call(this, sprite);
                     ide.spriteBar.tabBar.hide();
+                    // ide.controlBar.color = ide.groupColor;
+                    // ide.controlBar.drawNew();
+                    // ide.controlBar.fixLayout();
+
+
                 });
 
             };
             ide.fixLayout();
 
 
-            ide.newProject = function () {
-                Trace.log('PP.newProject');
-                ide.rawOpenProjectString(str);
-                // TODO(rzhi): Fix new project
-            };
+            // ide.newProject = function () {
+            //     Trace.log('PP.newProject');
+            //     ide.rawOpenProjectString(str);
+            //     // TODO(rzhi): Fix new project
+            // };
 
             // demand students to name the project
             ide.projectName = null;
 
             // hide 'Check My Work' button; hope students will test their code first
             if (window.assignmentID !== 'demo') {
-                ide.controlBar.PPHelpButton.hide();
+                // ide.controlBar.PPHelpButton.hide();
             }
         }); //rawOpenProjectString
 
@@ -1984,6 +1995,8 @@ function onWorldLoaded() {
             // gon.ppxml_file
             function (data) {
                 showParsonsProblem();
+                console.log('droppoed data');
+                console.log(data);
                 ide.droppedText(data);
                 // ide.palette.hide();
             }
@@ -2068,126 +2081,126 @@ function onWorldLoaded() {
         }
 
         // Add help feature
-        PPHelpButton = addButton(ide, 'Check My Work', function () {
-            checkMyWork = function () {
-                var isCorrect = true;
-                hasHighlight = false;
-                Trace.log('PP.checkMyWork');
-                if (window.assignmentID == 'demo') {
-                    isCorrect = checkDemo(ide.currentSprite);
-                } else if (window.assignmentID == 'polygonMakerLab') {
-                    isCorrect = checkPolygonMaker(ide.currentSprite);
-                } else if (window.assignmentID == 'pong1Lab') {
-                    isCorrect = checkPongOne(ide.sprites.contents,
-                        ide.currentSprite);
-                } else if (window.assignmentID == 'guess1Lab') {
-                    isCorrect = checkGGOne(ide.currentSprite);
-                }
-                paletteContentLength = ide.currentSprite.parsonsProblemPalette.contents.children.length;
-                if (paletteContentLength > 0) {
-                    if (paletteContentLength == ide.currentSprite.parsonsProblemPalette.originalBlockLength) {
-                        popupDialogBox(' Please use all blocks from the palette to solve the problem ');
-                    } else {
-                        currentCodeLength = ide.currentSprite.scripts.allChildren().length;
-                        currentCodeLength = currentCodeLength + ide.currentSprite.scripts.children.length;
-                        if (currentCodeLength == previousCodeLength) {
-                            CHECK_SAME_COUNT++;
-                        } else {
-                            CHECK_SAME_COUNT = 0;
-                            previousCodeLength = currentCodeLength;
-                        }
-                        if (CHECK_SAME_COUNT >= 2 || !hasHighlight) {
-                            popupDialogBox(' Please use all blocks from the palette to solve the problem ');
-                        }
-                    }
-                    isCorrect = false;
-                }
-                // If all correct, then popup to suggest submit assignment
-                if (isCorrect) {
-                    Trace.log('PP.correctSolution');
-                    submitAssignment = function () {
-                        if (BlockEditorMorph.showing &&
-                            BlockEditorMorph.showing[0]) {
-                            BlockEditorMorph.showing[0].updateDefinition();
-                        }
-                        // TODO: fix bug for keyboard focus
-                        if (ide.projectName) {
-                            ide.exportProject(ide.projectName, false, false);
-                        } else {
-                            ide.prompt('Export Project As...', function (name) {
-                                // no shift clicked
-                                ide.exportProject(name, false);
-                            }, null, 'exportProject');
-                        }
-                        Trace.log('IDE.submitAssignment');
-                        CodeTrace.log('IDE.submitAssignment', ide.projectName, true, true);
-                    };
-                    ide.confirm(
-                        'Your solution is correct! Click Yes to submit your solution and download a local copy.',
-                        'Congratulations',
-                        submitAssignment);
-                } else {
-                    // Only show the instruction if the user first uses this feature
-                    if (isFirstCheck && hasHighlight) {
-                        if (!isDialogShowing) {
-                            isFirstCheck = false;
-                        }
-                        popupDialogBox(' Yellow highlighted blocks are misplaced ');
-                    }
-                }
-            };
-            checkMyWork();
-        });
-        ide.controlBar.add(PPHelpButton);
-        ide.controlBar.PPHelpButton = PPHelpButton;
+        // PPHelpButton = addButton(ide, 'Check My Work', function () {
+        //     checkMyWork = function () {
+        //         var isCorrect = true;
+        //         hasHighlight = false;
+        //         Trace.log('PP.checkMyWork');
+        //         if (window.assignmentID == 'demo') {
+        //             isCorrect = checkDemo(ide.currentSprite);
+        //         } else if (window.assignmentID == 'polygonMakerLab') {
+        //             isCorrect = checkPolygonMaker(ide.currentSprite);
+        //         } else if (window.assignmentID == 'pong1Lab') {
+        //             isCorrect = checkPongOne(ide.sprites.contents,
+        //                 ide.currentSprite);
+        //         } else if (window.assignmentID == 'guess1Lab') {
+        //             isCorrect = checkGGOne(ide.currentSprite);
+        //         }
+        //         paletteContentLength = ide.currentSprite.parsonsProblemPalette.contents.children.length;
+        //         if (paletteContentLength > 0) {
+        //             if (paletteContentLength == ide.currentSprite.parsonsProblemPalette.originalBlockLength) {
+        //                 popupDialogBox(' Please use all blocks from the palette to solve the problem ');
+        //             } else {
+        //                 currentCodeLength = ide.currentSprite.scripts.allChildren().length;
+        //                 currentCodeLength = currentCodeLength + ide.currentSprite.scripts.children.length;
+        //                 if (currentCodeLength == previousCodeLength) {
+        //                     CHECK_SAME_COUNT++;
+        //                 } else {
+        //                     CHECK_SAME_COUNT = 0;
+        //                     previousCodeLength = currentCodeLength;
+        //                 }
+        //                 if (CHECK_SAME_COUNT >= 2 || !hasHighlight) {
+        //                     popupDialogBox(' Please use all blocks from the palette to solve the problem ');
+        //                 }
+        //             }
+        //             isCorrect = false;
+        //         }
+        //         // If all correct, then popup to suggest submit assignment
+        //         if (isCorrect) {
+        //             Trace.log('PP.correctSolution');
+        //             submitAssignment = function () {
+        //                 if (BlockEditorMorph.showing &&
+        //                     BlockEditorMorph.showing[0]) {
+        //                     BlockEditorMorph.showing[0].updateDefinition();
+        //                 }
+        //                 // TODO: fix bug for keyboard focus
+        //                 if (ide.projectName) {
+        //                     ide.exportProject(ide.projectName, false, false);
+        //                 } else {
+        //                     ide.prompt('Export Project As...', function (name) {
+        //                         // no shift clicked
+        //                         ide.exportProject(name, false);
+        //                     }, null, 'exportProject');
+        //                 }
+        //                 Trace.log('IDE.submitAssignment');
+        //                 CodeTrace.log('IDE.submitAssignment', ide.projectName, true, true);
+        //             };
+        //             ide.confirm(
+        //                 'Your solution is correct! Click Yes to submit your solution and download a local copy.',
+        //                 'Congratulations',
+        //                 submitAssignment);
+        //         } else {
+        //             // Only show the instruction if the user first uses this feature
+        //             if (isFirstCheck && hasHighlight) {
+        //                 if (!isDialogShowing) {
+        //                     isFirstCheck = false;
+        //                 }
+        //                 popupDialogBox(' Yellow highlighted blocks are misplaced ');
+        //             }
+        //         }
+        //     };
+        //     checkMyWork();
+        // });
+        // ide.controlBar.add(PPHelpButton);
+        // ide.controlBar.PPHelpButton = PPHelpButton;
 
         // Reset the sprite to the original solution
-        resetButton = addButton(ide, 'Reset Sprite & Clear Stage', function () {
-            Trace.log('PP.resetSprite');
-            // reset sprite
-            // Avoid multiple running scripts
-            // Copied from IDE_Morph.prototype.stopAllScripts
-            if (ide.stage.enableCustomHatBlocks) {
-                ide.stage.threads.pauseCustomHatBlocks =
-                    !ide.stage.threads.pauseCustomHatBlocks;
-            } else {
-                ide.stage.threads.pauseCustomHatBlocks = false;
-            }
-            ide.controlBar.stopButton.refresh();
-            ide.stage.fireStopAllEvent();
+        // resetButton = addButton(ide, 'Reset Sprite & Clear Stage', function () {
+        //     Trace.log('PP.resetSprite');
+        //     // reset sprite
+        //     // Avoid multiple running scripts
+        //     // Copied from IDE_Morph.prototype.stopAllScripts
+        //     if (ide.stage.enableCustomHatBlocks) {
+        //         ide.stage.threads.pauseCustomHatBlocks =
+        //             !ide.stage.threads.pauseCustomHatBlocks;
+        //     } else {
+        //         ide.stage.threads.pauseCustomHatBlocks = false;
+        //     }
+        //     ide.controlBar.stopButton.refresh();
+        //     ide.stage.fireStopAllEvent();
+        //
+        //     ide.sprites.contents.forEach(function (sprite) {
+        //         // // move to original position
+        //         sprite.setXPosition(sprite.originalX);
+        //
+        //         sprite.setYPosition(sprite.originalY);
+        //
+        //         // clear pentrails
+        //         sprite.clear();
+        //         sprite.heading = 90;
+        //         sprite.changed();
+        //         sprite.drawNew();
+        //     });
+        // });
+        // ide.corralBar.add(resetButton);
+        // ide.corralBar.resetButton = resetButton;
 
-            ide.sprites.contents.forEach(function (sprite) {
-                // // move to original position
-                sprite.setXPosition(sprite.originalX);
-
-                sprite.setYPosition(sprite.originalY);
-
-                // clear pentrails
-                sprite.clear();
-                sprite.heading = 90;
-                sprite.changed();
-                sprite.drawNew();
-            });
-        });
-        ide.corralBar.add(resetButton);
-        ide.corralBar.resetButton = resetButton;
-
-
-        extendObject(ide, 'fixLayout', function (base, situation) {
-            base.call(this, situation);
-            var PPHelpButton = this.controlBar.PPHelpButton;
-            if (PPHelpButton) {
-                PPHelpButton.setPosition(new Point(
-                    this.stage.left() - PPHelpButton.width() / 2 - 165,
-                    PPHelpButton.top()));
-            }
-            var resetButton = this.corralBar.resetButton;
-            if (resetButton) {
-                resetButton.setPosition(new Point(
-                    this.corral.left() + this.corral.extent().x / 2 - resetButton.width() / 2,
-                    this.stage.bottom()));
-            }
-        });
+        //
+        // extendObject(ide, 'fixLayout', function (base, situation) {
+        //     base.call(this, situation);
+        //     var PPHelpButton = this.controlBar.PPHelpButton;
+        //     if (PPHelpButton) {
+        //         PPHelpButton.setPosition(new Point(
+        //             this.stage.left() - PPHelpButton.width() / 2 - 165,
+        //             PPHelpButton.top()));
+        //     }
+        //     var resetButton = this.corralBar.resetButton;
+        //     if (resetButton) {
+        //         resetButton.setPosition(new Point(
+        //             this.corral.left() + this.corral.extent().x / 2 - resetButton.width() / 2,
+        //             this.stage.bottom()));
+        //     }
+        // });
 
         // Fix issues for toggleAppMode
         extendObject(ide, 'toggleAppMode', function (base, appMode) {
@@ -2435,8 +2448,17 @@ addCodeToPalette = function(sprite) {
                         }
                         else if (insideblock.children[2]){
                             insideblock.children[2].allChildren().forEach(function (subMorph){
-                                console.log("subMorph.text: ", subMorph.selector);
-                                disableBlockEdit(subMorph);
+                                if (subMorph.selector !== "doRepeat") {
+                                    subMorph.children.forEach(function (subsubMorph){
+                                        disableBlockEdit(subsubMorph);
+                                    });
+
+                                }
+                                else if (insideblock.children[2]){
+                                    subMorph.children[2].allChildren().forEach(function (subsubMorph){
+                                        disableBlockEdit(subsubMorph);
+                                    });
+                                }
                             });
                         }
                     });

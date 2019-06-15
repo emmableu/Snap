@@ -1212,6 +1212,9 @@ IDE_Morph.prototype.createStage = function () {
     // assumes that the logo pane has already been created
     if (this.stage) {this.stage.destroy(); }
     StageMorph.prototype.frameRate = 0;
+
+
+
     this.stage = new StageMorph(this.globalVariables);
     this.stage.setExtent(this.stage.dimensions); // dimensions are fixed
     if (this.currentSprite instanceof SpriteMorph) {
