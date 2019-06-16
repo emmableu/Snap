@@ -24,12 +24,18 @@ this file implements the parsonsProblem feature for the lab assignments.
 // Global stuff ////////////////////////////////////////////////////////
 modules.parsonsProblem = '2018-Nov-23';
 
+window.assignmentID = "None";
 
 // Check My Work ///////////////////////////////////////////////
 var isDialogShowing = false;
 var hasHighlight = false;
 // Only shows the checking instruction when first click this button
 var isFirstCheck = true;
+
+ColorSlotMorph.prototype.mouseClickLeft = function () {
+    // this.selectForEdit().getUserColor();
+};
+
 resetDiaglogShowing = function() {
     isDialogShowing = false;
 };

@@ -3,6 +3,9 @@ extend(IDE_Morph, 'createLogo', function(base) {
     this.logo.hide();
 });
 
+// //Set assignment ID and user ID
+// window.assignmentID ='<%=@minitask.title%>';
+// window.userID = '<%=@current_user.username%>';
 
 // extend(IDE_Morph, 'createControlBar', function(base) {
 //     base.call(this);
