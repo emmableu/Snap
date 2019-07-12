@@ -449,7 +449,7 @@ IDE_Morph.prototype.openIn = function (world) {
                     var msg;
                     myself.nextSteps([
                         function () {
-                            msg = myself.showMessage('Opening project...');
+                            // msg = myself.showMessage('Opening project...');
                         },
                         function () {nop(); }, // yield (bug in Chrome)
                         function () {
@@ -465,7 +465,7 @@ IDE_Morph.prototype.openIn = function (world) {
                         function () {
                             myself.shield.destroy();
                             myself.shield = null;
-                            msg.destroy();
+                            ////msg.destroy();
                             applyFlags(dict);
                         }
                     ]);
@@ -489,7 +489,7 @@ IDE_Morph.prototype.openIn = function (world) {
                     var msg;
                     myself.nextSteps([
                         function () {
-                            msg = myself.showMessage('Opening project...');
+                            // msg = myself.showMessage('Opening project...');
                         },
                         function () {nop(); }, // yield (bug in Chrome)
                         function () {
@@ -505,7 +505,7 @@ IDE_Morph.prototype.openIn = function (world) {
                         function () {
                             myself.shield.destroy();
                             myself.shield = null;
-                            msg.destroy();
+                            ////msg.destroy();
                             myself.toggleAppMode(false);
                         }
                     ]);
@@ -2736,9 +2736,9 @@ IDE_Morph.prototype.cloudMenu = function () {
                                 }
                                 myself.nextSteps([
                                     function () {
-                                        msg = myself.showMessage(
-                                            'Opening project...'
-                                        );
+                                        // msg = myself.showMessage(
+                                        //     'Opening project...'
+                                        // );
                                     },
                                     function () {nop(); }, // yield (Chrome)
                                     function () {
@@ -2747,7 +2747,7 @@ IDE_Morph.prototype.cloudMenu = function () {
                                         );
                                     },
                                     function () {
-                                        msg.destroy();
+                                        ////msg.destroy();
                                     }
                                 ]);
                             },
@@ -3455,7 +3455,7 @@ IDE_Morph.prototype.importMedia = function (folderName) {
     this.getMediaList(
         folderName,
         function (items) {
-            msg.destroy();
+            ////msg.destroy();
             myself.popupMediaImportDialog(folderName, items);
         }
     );
@@ -4360,14 +4360,14 @@ IDE_Morph.prototype.openProjectString = function (str) {
         myself = this;
     this.nextSteps([
         function () {
-            msg = myself.showMessage('Opening project...');
+            // msg = myself.showMessage('Opening project...');
         },
         function () {nop(); }, // yield (bug in Chrome)
         function () {
             myself.rawOpenProjectString(str);
         },
         function () {
-            msg.destroy();
+            ////msg.destroy();
         }
     ]);
 };
@@ -4415,7 +4415,7 @@ IDE_Morph.prototype.openCloudDataString = function (str) {
             myself.rawOpenCloudDataString(str);
         },
         function () {
-            msg.destroy();
+            ////msg.destroy();
         }
     ]);
 };
@@ -4473,7 +4473,7 @@ IDE_Morph.prototype.openBlocksString = function (str, name, silently) {
             myself.rawOpenBlocksString(str, name, silently);
         },
         function () {
-            msg.destroy();
+            ////msg.destroy();
         }
     ]);
 };
@@ -4522,7 +4522,7 @@ IDE_Morph.prototype.openSpritesString = function (str) {
             myself.rawOpenSpritesString(str);
         },
         function () {
-            msg.destroy();
+            ////msg.destroy();
         }
     ]);
 };
@@ -4567,7 +4567,7 @@ IDE_Morph.prototype.openScriptString = function (str) {
             myself.rawOpenScriptString(str);
         },
         function () {
-            msg.destroy();
+            ////msg.destroy();
         }
     ]);
 };
@@ -4616,7 +4616,7 @@ IDE_Morph.prototype.openDataString = function (str, name, type) {
             myself.rawOpenDataString(str, name, type);
         },
         function () {
-            msg.destroy();
+            ////msg.destroy();
         }
     ]);
 };
@@ -4670,7 +4670,7 @@ IDE_Morph.prototype.openProject = function (name) {
     Trace.log('IDE.openProject', name);
     var str;
     if (name) {
-        this.showMessage('opening project\n' + name);
+        // this.showMessage('opening project\n' + name);
         this.setProjectName(name);
         str = localStorage['-snap-project-' + name];
         this.openProjectString(str);
@@ -6401,10 +6401,10 @@ ProjectDialogMorph.prototype.setSource = function (source) {
                 if (myself.source === 'cloud') {
                     myself.installCloudProjectList(response.projects);
                 }
-                msg.destroy();
+                ////msg.destroy();
             },
             function (err, lbl) {
-                msg.destroy();
+                ////msg.destroy();
                 myself.ide.cloudError().call(null, err, lbl);
             }
         );

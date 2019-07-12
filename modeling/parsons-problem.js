@@ -1205,7 +1205,7 @@ checkGuessFeedback = function(blockIndexMap) {
         });
 
 
-        console.log(doUntilIndexMap);
+        // console.log(doUntilIndexMap);
 
         // TODO: this is the last step
         checkGGIfNotEqual = function(ifBlock) {
@@ -1482,7 +1482,7 @@ checkGGOne = function(sprite) {
             nextBlock = nextBlock.nextBlock();
         }
 
-        console.log(blockIndexMap);
+        // console.log(blockIndexMap);
         // Check greeting users and set secret number
         if (!checkGreetingAndSetRandom(blockIndexMap)) {
             isCorrect = false;
@@ -1568,10 +1568,10 @@ SnapSerializer.prototype.openProject = function (project, ide) {
 };
 
 function onWorldLoaded() {
-    console.log("onWorldLoadedin parsons problem");
-    console.log('onworldloaded');
+    // console.log("onWorldLoadedin parsons problem");
+    // console.log('onworldloaded');
     var ide = world.children[0];
-    console.log("ide: ", ide);
+    // console.log("ide: ", ide);
     ppxml_path = gon.ppxmlfile_path;
     console.log("ppxml_path: ", ppxml_path);
     function addText(text, fontSize, bold, environment) {
@@ -1630,22 +1630,31 @@ function onWorldLoaded() {
             this.nextSteps([
                 function () {
                     // msg = myself.showMessage('Opening problem... this may take 2 ~ 5s');
+
                 },
                 function () {
                     nop();
+
                 }, // yield (bug in Chrome)
                 function () {
                     if (str.indexOf('Untitled') === -1) {
                         myself.rawOpenProjectString(str);
                         spriteToLeft(myself);
-                        console.log(str);
+                        // console.log(str);
                     }
 
                     // myself.toggleFastTracking(); // open turbo mode
                 },
                 function () {
                     Trace.log('PP.Start', null, true, true);
-                    // msg.destroy();
+                    // myself.toggleFastTracking();
+
+                // <% if @task.order == 5 and @minitask.order == 3%>
+
+                    if (window.assignmentID == 'Zig-Zag3') {
+                        window.ide.stage.isFastTracked = true;
+                    }
+                // <% end %>
                 }
             ]);
         };
@@ -1872,8 +1881,8 @@ function onWorldLoaded() {
             };
 
             ide.droppedText = function (aString, name) {
-                console.log("droppedText: ", aString);
-                console.log("name: ", name);
+                // console.log("droppedText: ", aString);
+                // console.log("name: ", name);
                 Trace.log('PP.droppedText');
                 this.inform('Feature Disabled', 'This feature is disabled in lab assignments.');
             };
@@ -1991,20 +2000,23 @@ function onWorldLoaded() {
                 return;
             }
         });
+
+
+
+
+
         ide.fixLayout();
     };
     if (ppxml_path) {
-        console.log('find ppxmlpath');
-        console.log('ppxmlfilepath: ', ppxml_path);
         $.get(
+            //data
             ppxml_path,
-            // gon.ppxml_file
+            //callback on success
             function (data) {
                 showParsonsProblem();
-                console.log('droppoed data');
-                console.log(data);
+                // console.log('droppoed data');
                 ide.droppedText(data);
-                // ide.palette.hide();
+                // console.log('where is my droppedText function?');
             }
         );
         // ).done(spriteToLeft(ide));
@@ -2017,7 +2029,7 @@ function onWorldLoaded() {
 
 
         function spriteToLeft(ide) {
-            console.log('spritetoleft!');
+            // console.log('spritetoleft!');
             infoMorph = new Morph();
 
 // For adding text in an environment
@@ -2034,15 +2046,15 @@ function onWorldLoaded() {
             // ide.add(info);
 
 
-            console.log('ide: ', ide);
+            // console.log('ide: ', ide);
             // Store
             sessionStorage.setItem("idepalette", ide.palette);
 
-            console.log('sprteToLeft, ide hide runned');
-            console.log('ide.sprites.contents[0].scripts', ide.sprites.contents[0].scripts);
+            // console.log('sprteToLeft, ide hide runned');
+            // console.log('ide.sprites.contents[0].scripts', ide.sprites.contents[0].scripts);
             sprite = getSprite(0);
-            console.log('sprite: ', sprite);
-            console.log('scriptsonscreen: ', getScripts(0));
+            // console.log('sprite: ', sprite);
+            // console.log('scriptsonscreen: ', getScripts(0));
             sprite.clear();
             sprite.heading = 90;
             sprite.changed();
@@ -2066,7 +2078,7 @@ function onWorldLoaded() {
                 });
             }
             sprite.exampleCode = exampleCode;
-            console.log("sprite.examplecode: ", sprite.exampleCode);
+            // console.log("sprite.examplecode: ", sprite.exampleCode);
             // Create palette for preseting parsons problems blocks
             // create parsons problems palette for this sprite
             parsonsProblemPalette = createParsonsProblemPalette(sprite, ide);
@@ -2086,127 +2098,7 @@ function onWorldLoaded() {
             RUN_TIMES_TO_ENABLE_HELP = 1;
         }
 
-        // Add help feature
-        // PPHelpButton = addButton(ide, 'Check My Work', function () {
-        //     checkMyWork = function () {
-        //         var isCorrect = true;
-        //         hasHighlight = false;
-        //         Trace.log('PP.checkMyWork');
-        //         if (window.assignmentID == 'demo') {
-        //             isCorrect = checkDemo(ide.currentSprite);
-        //         } else if (window.assignmentID == 'polygonMakerLab') {
-        //             isCorrect = checkPolygonMaker(ide.currentSprite);
-        //         } else if (window.assignmentID == 'pong1Lab') {
-        //             isCorrect = checkPongOne(ide.sprites.contents,
-        //                 ide.currentSprite);
-        //         } else if (window.assignmentID == 'guess1Lab') {
-        //             isCorrect = checkGGOne(ide.currentSprite);
-        //         }
-        //         paletteContentLength = ide.currentSprite.parsonsProblemPalette.contents.children.length;
-        //         if (paletteContentLength > 0) {
-        //             if (paletteContentLength == ide.currentSprite.parsonsProblemPalette.originalBlockLength) {
-        //                 popupDialogBox(' Please use all blocks from the palette to solve the problem ');
-        //             } else {
-        //                 currentCodeLength = ide.currentSprite.scripts.allChildren().length;
-        //                 currentCodeLength = currentCodeLength + ide.currentSprite.scripts.children.length;
-        //                 if (currentCodeLength == previousCodeLength) {
-        //                     CHECK_SAME_COUNT++;
-        //                 } else {
-        //                     CHECK_SAME_COUNT = 0;
-        //                     previousCodeLength = currentCodeLength;
-        //                 }
-        //                 if (CHECK_SAME_COUNT >= 2 || !hasHighlight) {
-        //                     popupDialogBox(' Please use all blocks from the palette to solve the problem ');
-        //                 }
-        //             }
-        //             isCorrect = false;
-        //         }
-        //         // If all correct, then popup to suggest submit assignment
-        //         if (isCorrect) {
-        //             Trace.log('PP.correctSolution');
-        //             submitAssignment = function () {
-        //                 if (BlockEditorMorph.showing &&
-        //                     BlockEditorMorph.showing[0]) {
-        //                     BlockEditorMorph.showing[0].updateDefinition();
-        //                 }
-        //                 // TODO: fix bug for keyboard focus
-        //                 if (ide.projectName) {
-        //                     ide.exportProject(ide.projectName, false, false);
-        //                 } else {
-        //                     ide.prompt('Export Project As...', function (name) {
-        //                         // no shift clicked
-        //                         ide.exportProject(name, false);
-        //                     }, null, 'exportProject');
-        //                 }
-        //                 Trace.log('IDE.submitAssignment');
-        //                 CodeTrace.log('IDE.submitAssignment', ide.projectName, true, true);
-        //             };
-        //             ide.confirm(
-        //                 'Your solution is correct! Click Yes to submit your solution and download a local copy.',
-        //                 'Congratulations',
-        //                 submitAssignment);
-        //         } else {
-        //             // Only show the instruction if the user first uses this feature
-        //             if (isFirstCheck && hasHighlight) {
-        //                 if (!isDialogShowing) {
-        //                     isFirstCheck = false;
-        //                 }
-        //                 popupDialogBox(' Yellow highlighted blocks are misplaced ');
-        //             }
-        //         }
-        //     };
-        //     checkMyWork();
-        // });
-        // ide.controlBar.add(PPHelpButton);
-        // ide.controlBar.PPHelpButton = PPHelpButton;
 
-        // Reset the sprite to the original solution
-        // resetButton = addButton(ide, 'Reset Sprite & Clear Stage', function () {
-        //     Trace.log('PP.resetSprite');
-        //     // reset sprite
-        //     // Avoid multiple running scripts
-        //     // Copied from IDE_Morph.prototype.stopAllScripts
-        //     if (ide.stage.enableCustomHatBlocks) {
-        //         ide.stage.threads.pauseCustomHatBlocks =
-        //             !ide.stage.threads.pauseCustomHatBlocks;
-        //     } else {
-        //         ide.stage.threads.pauseCustomHatBlocks = false;
-        //     }
-        //     ide.controlBar.stopButton.refresh();
-        //     ide.stage.fireStopAllEvent();
-        //
-        //     ide.sprites.contents.forEach(function (sprite) {
-        //         // // move to original position
-        //         sprite.setXPosition(sprite.originalX);
-        //
-        //         sprite.setYPosition(sprite.originalY);
-        //
-        //         // clear pentrails
-        //         sprite.clear();
-        //         sprite.heading = 90;
-        //         sprite.changed();
-        //         sprite.drawNew();
-        //     });
-        // });
-        // ide.corralBar.add(resetButton);
-        // ide.corralBar.resetButton = resetButton;
-
-        //
-        // extendObject(ide, 'fixLayout', function (base, situation) {
-        //     base.call(this, situation);
-        //     var PPHelpButton = this.controlBar.PPHelpButton;
-        //     if (PPHelpButton) {
-        //         PPHelpButton.setPosition(new Point(
-        //             this.stage.left() - PPHelpButton.width() / 2 - 165,
-        //             PPHelpButton.top()));
-        //     }
-        //     var resetButton = this.corralBar.resetButton;
-        //     if (resetButton) {
-        //         resetButton.setPosition(new Point(
-        //             this.corral.left() + this.corral.extent().x / 2 - resetButton.width() / 2,
-        //             this.stage.bottom()));
-        //     }
-        // });
 
         // Fix issues for toggleAppMode
         extendObject(ide, 'toggleAppMode', function (base, appMode) {
@@ -2245,6 +2137,8 @@ function onWorldLoaded() {
 
     }
     ;
+
+    doExecAndDisplayLittleTests();
 };
 
 
@@ -2442,12 +2336,12 @@ addCodeToPalette = function(sprite) {
             var allow_repeat = parseInt(document.getElementById("minitask_allow_repeat").innerHTML);
             if (allow_repeat===1){
                 block.blockSequence().forEach(function (insideblock) {
-                    console.log("insideblock: ", insideblock);
-                    console.log("insideblock.text: ", insideblock.selector);
+                    // console.log("insideblock: ", insideblock);
+                    // console.log("insideblock.text: ", insideblock.selector);
 
                         if (insideblock.selector !== "doRepeat") {
                             insideblock.children.forEach(function (subMorph){
-                                console.log("subMorph.text: ", subMorph.selector);
+                                // console.log("subMorph.text: ", subMorph.selector);
                                 disableBlockEdit(subMorph);
                             });
 
@@ -2471,7 +2365,7 @@ addCodeToPalette = function(sprite) {
             }
             else{
                 block.allChildren().forEach(function (subMorph){
-                    console.log("subMorph.text: ", subMorph.selector);
+                    // console.log("subMorph.text: ", subMorph.selector);
                     disableBlockEdit(subMorph);
                 });
             }
@@ -2524,6 +2418,7 @@ addCodeToPalette = function(sprite) {
             return;
         }
         paletteYPosition += block.height();
+        // paletteYPosition += block.blockSequence().length +1) * block.height()*1.2;
     });
     extend(SyntaxElementMorph, 'revertToDefaultInput',
         function (base, arg, noValues) {
