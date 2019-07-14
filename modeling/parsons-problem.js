@@ -1651,9 +1651,9 @@ function onWorldLoaded() {
 
                 // <% if @task.order == 5 and @minitask.order == 3%>
 
-                    if (window.assignmentID == 'Zig-Zag3') {
-                        window.ide.stage.isFastTracked = true;
-                    }
+                    // if (window.assignmentID == 'Zig-Zag3') {
+                    //     window.ide.stage.isFastTracked = true;
+                    // }
                 // <% end %>
                 }
             ]);
@@ -2471,4 +2471,13 @@ setDefaultInputForDemo = function(block) {
     if (block.selector == 'forward') {
         setDefaultInput(block, 20);
     }
+};
+
+turnOnFastTracking = function(){
+        window.ide.stage.isFastTracked = true;
+};
+
+
+turnOffFastTracking = function(){
+    window.ide.stage.isFastTracked = false;
 };
