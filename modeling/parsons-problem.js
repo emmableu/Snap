@@ -1584,7 +1584,7 @@ function onWorldLoaded() {
         textMorph.drawNew();
         return textMorph;
     }
-    showParsonsProblem = function () {
+    showParsonsProblem = function (data) {
         // console.log('Show example');
 
         // Disable keyboard
@@ -1880,12 +1880,6 @@ function onWorldLoaded() {
                 menu.popup(world, pos);
             };
 
-            ide.droppedText = function (aString, name) {
-                // console.log("droppedText: ", aString);
-                // console.log("name: ", name);
-                Trace.log('PP.droppedText');
-                this.inform('Feature Disabled', 'This feature is disabled in lab assignments.');
-            };
 
             // remove highlight for blocks which already has value
             extend(ScriptsMorph, 'showReporterDropFeedbackFromTarget', function (base, block, target) {
@@ -2001,26 +1995,27 @@ function onWorldLoaded() {
             }
         });
 
-
-
-
-
         ide.fixLayout();
-    };
-    if (ppxml_path) {
-        $.get(
-            //data
-            ppxml_path,
-            //callback on success
-            function (data) {
-                showParsonsProblem();
-                // console.log('droppoed data');
+
+        if (data) {
+            window.setTimeout(function() {
                 ide.droppedText(data);
-                // console.log('where is my droppedText function?');
-            }
-        );
-        // ).done(spriteToLeft(ide));
-        // }
+                ide.droppedText = function (aString, name) {
+                    // console.log("droppedText: ", aString);
+                    // console.log("name: ", name);
+                    Trace.log('PP.droppedText');
+                    // this.inform('Feature Disabled', 'This feature is disabled in lab assignments.');
+                };
+
+            }, 500);
+
+        }
+
+
+
+
+
+    };
 
 // onWorldLoaded: 这时页面已经加载好，ide有了，ide.corral对应的是已经加载好的corral，所以
 // corral的height 和 width也固定了。
@@ -2134,9 +2129,23 @@ function onWorldLoaded() {
 
         // showParsonsProblem();
 
+    if (ppxml_path) {
+        $.get(
+            //data
+            ppxml_path,
+            //callback on success
+            function (data) {
+                console.log('data is ready');
+                showParsonsProblem(data);
+                // console.log('droppoed data: ' + data);
+                // ide.droppedText(data);
+                // console.log('where is my droppedText function?');
+            }
+        );
 
+        // ).done(spriteToLeft(ide));
+        // }
     }
-    ;
 
     doExecAndDisplayLittleTests();
 };

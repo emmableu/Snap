@@ -549,7 +549,7 @@ IDE_Morph.prototype.fixLayout = function (situation) {
             // console.log(this.isSmallStage, this.stageRatio);
             // console.log('else in mminitask-iframe');
             this.stage.setScale(Math.floor(Math.min(
-                this.logo.width()*2 / this.stage.dimensions.x,
+                this.logo.width()*1.7 / this.stage.dimensions.x,
                 (this.height() - this.controlBar.height() * 2 - padding * 2)
                 / this.stage.dimensions.y
             ) * 10) / 10);
